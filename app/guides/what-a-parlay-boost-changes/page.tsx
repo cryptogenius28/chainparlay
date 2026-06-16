@@ -67,13 +67,17 @@ export default function Page() {
       </ul>
 
       <p>
-        Because these terms vary by operator and change often, we list
-        verified current boost terms on each book&apos;s comparison row
-        rather than baking specific numbers into this guide — check the{" "}
-        <a href="/compare" className="text-steel hover:text-chalk">
-          comparison table
+        Because these terms vary by operator and change often, we keep a
+        live{" "}
+        <a href="/boosts" className="text-steel hover:text-chalk">
+          boost tracker
         </a>{" "}
-        for what&apos;s currently confirmed.
+        rather than baking specific numbers into this guide. One concrete
+        example of why that matters: Cloudbet&apos;s own blog states
+        outright that parlay payouts there are pure multiplication, with no
+        added boost — a useful reminder that &quot;does this book even
+        offer a boost&quot; is itself worth checking before &quot;how big
+        is it.&quot;
       </p>
     </GuideArticle>
   );

@@ -55,40 +55,58 @@ export default function PlatformPage({
         ))}
       </div>
 
-      <p className="mt-8 eyebrow">Combo terms — needs verification</p>
+      <p className="mt-8 eyebrow">Combo terms</p>
       <div className="mt-3 overflow-hidden rounded-link border border-hairline">
         {[
-          { label: "Max parlay legs", value: volatile.maxParlayLegs },
           {
-            label: "Combo boost",
-            value:
-              volatile.parlayBoostPct !== null
-                ? `+${volatile.parlayBoostPct}%`
+            label: "Max parlay legs",
+            display:
+              volatile.maxParlayLegs !== null
+                ? String(volatile.maxParlayLegs)
                 : null,
           },
-          { label: "Min odds per leg", value: volatile.minOddsPerLeg },
-          { label: "Deposit bonus", value: volatile.depositBonus },
+          {
+            label: "Combo boost",
+            display:
+              volatile.parlayBoostPct === null
+                ? null
+                : volatile.parlayBoostPct > 0
+                ? `+${volatile.parlayBoostPct}%`
+                : "None",
+          },
+          {
+            label: "Min odds per leg",
+            display:
+              volatile.minOddsPerLeg !== null
+                ? volatile.minOddsPerLeg.toFixed(2)
+                : null,
+          },
+          { label: "Deposit bonus", display: volatile.depositBonus },
         ].map((row, i) => (
           <div
             key={row.label}
-            className={`flex items-center justify-between px-4 py-3 text-sm ${
+            className={`flex items-center justify-between gap-4 px-4 py-3 text-sm ${
               i % 2 === 0 ? "bg-surface" : ""
             }`}
           >
             <span className="text-muted">{row.label}</span>
-            {row.value !== null && volatile.verified ? (
-              <span className="tabular text-chalk">{row.value}</span>
-            ) : (
+            {!volatile.verified ? (
               <span className="font-mono text-xs uppercase tracking-widest2 text-alert">
                 Verify on site
+              </span>
+            ) : row.display === null ? (
+              <span className="text-muted">—</span>
+            ) : (
+              <span className="tabular text-right text-chalk">
+                {row.display}
               </span>
             )}
           </div>
         ))}
       </div>
       <p className="mt-2 text-xs text-muted">
-        {volatile.lastVerified
-          ? `Last verified ${volatile.lastVerified}.`
+        {volatile.verified && volatile.lastVerified
+          ? `Verified against the operator's own help center / terms on ${volatile.lastVerified}.`
           : "Not yet verified against the operator's live terms — confirm before publishing."}
       </p>
 

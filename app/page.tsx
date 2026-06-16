@@ -101,6 +101,14 @@ export default function HomePage() {
         <div className="mt-6">
           <ComparisonTable platforms={topPlatforms} />
         </div>
+        <div className="mt-4">
+          <Link
+            href="/boosts"
+            className="font-mono text-xs uppercase tracking-widest2 text-steel hover:text-chalk"
+          >
+            See current parlay boost status →
+          </Link>
+        </div>
       </section>
 
       <section id="guides" className="mx-auto max-w-6xl px-6 py-16">

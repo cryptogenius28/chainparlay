@@ -17,13 +17,44 @@ import { Platform } from "@/types/platform";
  *   license 1668/JAZ, founded 2016); coin list and payout speed
  *   cross-checked via bitcoin.com and cryptoadventure.com reviews.
  *
- * `volatile` fields (rating, max legs, boost %, min odds/leg, bonus) are
- * UNVERIFIED placeholders. Sources directly contradicted each other here —
- * e.g. one review states BC.Game has no parlay/accumulator bonus, another
- * describes a 5-leg "Acca Boost." These terms change often and are
- * regulated marketing claims: confirm each one on the operator's live
- * terms page (or affiliate portal) before publishing, then set
- * `verified: true` and `lastVerified` to today's date.
+ * SOURCES for `volatile` fields:
+ * - Cloudbet (verified 2026-06-16): max legs (15) confirmed via Cloudbet's
+ *   own Help Centre, "How to place a parlay bet (an accumulator)"
+ *   (cloudbet.com/en/support/articles/103314). No parlay/combo boost
+ *   confirmed via Cloudbet's own blog, "How to Make Winning Parlay Bets"
+ *   (cloudbet.com/en/blog/sports/what-is-a-parlay-bet, dated March 2026),
+ *   which states plainly there is no bonus or boost on parlays. Deposit
+ *   bonus is a "Welcome Package" (rakeback + daily/weekly cash drops +
+ *   Cash Vault unlocked day 30) per Cloudbet's own landing page
+ *   (cloudbet.com/en/lp/welcome-package) — independent reviews
+ *   consistently cite a ~$2,500 total value, though it is not a simple
+ *   percentage deposit match. Minimum odds per leg: not found published
+ *   anywhere, including official sources — left blank rather than guessed.
+ * - Stake, BC.Game, Sportsbet.io: still unverified for specific numbers, but
+ *   each has a documented finding below rather than a blank slate:
+ *   - Stake's own Help Centre ("What is a Multi Bet?",
+ *     help.stake.com/en/articles/5648214) documents straightforward odds
+ *     multiplication and void-leg handling, with no mention anywhere of a
+ *     leg cap or a standing parlay/combo boost. The "25 selections" figure
+ *     repeated across review sites traces to none of Stake's own pages —
+ *     treat it as unconfirmed.
+ *   - BC.Game's own sportsbook terms page (bc.game/help/terms-sports) lists
+ *     "combo boost" among its own meta keywords, confirming the feature
+ *     exists — which contradicts one third-party review claiming BC.Game
+ *     has no parlay bonus at all. The page is a JS-rendered app that didn't
+ *     return actual figures on fetch, and third-party sites give mutually
+ *     contradictory numbers for the boost scale (one cites 2%/10%/15% for
+ *     3/4/5 legs; another cites an unrelated 1.05x–1.5x scale for 4–15
+ *     legs) — none of these specific numbers are trustworthy yet.
+ *   - Sportsbet.io's own help center documents a "Price Boost" (single-bet
+ *     odds enhancer, requires 1.3+ odds and a crypto-currency bet, refreshes
+ *     every 24h — not parlay-specific) and a "Multi Insurance" feature
+ *     (partial stake refund if a 5+ leg multi loses — insurance, not a
+ *     boost). No official source confirms a parlay/combo payout-boost
+ *     percentage; one review describes a scaling "Multibet price boost"
+ *     with specific seasonal numbers that aren't corroborated anywhere else.
+ *   Confirm directly on each platform's live bet slip/terms before setting
+ *   `verified: true` — the Cloudbet entry is the bar to clear.
  */
 export const platforms: Platform[] = [
   {
@@ -32,7 +63,7 @@ export const platforms: Platform[] = [
     tagline: "Deep market coverage, crypto-only cashier",
     affiliateUrl: "https://example.com/go/stake",
     notes:
-      "Largest market depth of the four for live parlay legs across major sports. Crypto-only deposits (fiat purchasable in-app via Moonpay).",
+      "Largest market depth of the four for live parlay legs across major sports. Crypto-only deposits (fiat purchasable in-app via Moonpay). Stake's own Help Centre documents Multi bets as plain odds multiplication with no mention of a leg cap or standing boost — the '25 selections' figure seen elsewhere isn't sourced to Stake itself.",
     stable: {
       foundedYear: 2017,
       operatorEntity: "Medium Rare N.V.",
@@ -58,7 +89,7 @@ export const platforms: Platform[] = [
     tagline: "Largest coin list, gamified rewards",
     affiliateUrl: "https://example.com/go/bc-game",
     notes:
-      "Reviews disagree on whether a standing parlay/Acca boost exists — confirm current promo terms directly before publishing any boost figure.",
+      "BC.Game's own terms page confirms a 'combo boost' feature exists (contradicting one review that claimed there's no parlay bonus at all), but the specific percentage and leg requirements weren't accessible — third-party sites quote mutually contradictory numbers for the boost scale, so none of them should be trusted yet.",
     stable: {
       foundedYear: 2017,
       operatorEntity: "BlockDance B.V.",
@@ -84,7 +115,7 @@ export const platforms: Platform[] = [
     tagline: "Longest track record, high-limit sportsbook",
     affiliateUrl: "https://example.com/go/cloudbet",
     notes:
-      "Operating since 2013 — the longest-running of the four. Reviews note occasional zero-margin sportsbook promos, which is a genuine edge for combo bettors if confirmed live.",
+      "No standing parlay boost — Cloudbet's own blog confirms parlay payouts are pure multiplication of leg odds, nothing added. Up to 15 legs per parlay. The welcome offer is structured as rakeback and cash drops over 30 days rather than a single deposit match.",
     stable: {
       foundedYear: 2013,
       operatorEntity: "Halcyon Super Holdings B.V.",
@@ -96,12 +127,13 @@ export const platforms: Platform[] = [
     },
     volatile: {
       rating: null,
-      maxParlayLegs: null,
-      parlayBoostPct: null,
+      maxParlayLegs: 15,
+      parlayBoostPct: 0,
       minOddsPerLeg: null,
-      depositBonus: null,
-      verified: false,
-      lastVerified: null,
+      depositBonus:
+        "Welcome Package up to ~$2,500 over 30 days via rakeback + daily/weekly cash drops + Cash Vault (day 30) — not a simple deposit match",
+      verified: true,
+      lastVerified: "2026-06-16",
     },
   },
   {
@@ -110,7 +142,7 @@ export const platforms: Platform[] = [
     tagline: "Sponsorship-backed, fiat + crypto hybrid",
     affiliateUrl: "https://example.com/go/sportsbet-io",
     notes:
-      "Part of Coingaming Group. One of the few crypto books that also takes fiat/card deposits, which may matter for bettors who want both rails.",
+      "Part of Coingaming Group. Its own help center documents a 'Price Boost' (single-bet odds enhancer, not parlay-specific) and a 'Multi Insurance' refund on 5+ leg losing multis, but no official source confirms a parlay/combo payout-boost percentage — don't confuse the two documented features for one.",
     stable: {
       foundedYear: 2016,
       operatorEntity: "mBet Solutions N.V. (Coingaming Group)",

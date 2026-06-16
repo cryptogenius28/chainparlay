@@ -97,22 +97,35 @@ export default function ParlayCalculator() {
     const profit = payout !== null ? payout - stakeNum : null;
 
     let boostedPayout: number | null = null;
-    if (
-      payout !== null &&
-      profit !== null &&
-      platform.volatile.verified &&
-      platform.volatile.parlayBoostPct !== null
-    ) {
-      const boostedProfit =
-        profit * (1 + platform.volatile.parlayBoostPct / 100);
-      boostedPayout = stakeNum + boostedProfit;
+    let boostStatus: "unverified" | "none" | "applied" = "unverified";
+
+    if (platform.volatile.verified && payout !== null && profit !== null) {
+      if (
+        platform.volatile.parlayBoostPct !== null &&
+        platform.volatile.parlayBoostPct > 0
+      ) {
+        const boostedProfit =
+          profit * (1 + platform.volatile.parlayBoostPct / 100);
+        boostedPayout = stakeNum + boostedProfit;
+        boostStatus = "applied";
+      } else {
+        boostStatus = "none";
+      }
     }
 
     const exceedsMaxLegs =
       platform.volatile.maxParlayLegs !== null &&
       legs.length > platform.volatile.maxParlayLegs;
 
-    return { platform, incomplete, combinedOdds, payout, boostedPayout, exceedsMaxLegs };
+    return {
+      platform,
+      incomplete,
+      combinedOdds,
+      payout,
+      boostedPayout,
+      boostStatus,
+      exceedsMaxLegs,
+    };
   });
 
   const complete = results.filter((r) => !r.incomplete);
@@ -249,12 +262,18 @@ export default function ParlayCalculator() {
                   <p className="mt-1 tabular text-sm text-muted">
                     ${stakeNum.toFixed(2)} → ${r.payout!.toFixed(2)}
                   </p>
-                  {r.boostedPayout !== null ? (
+                  {r.boostStatus === "applied" && (
                     <p className="mt-2 tabular text-sm text-win">
                       +{r.platform.volatile.parlayBoostPct}% boost → $
-                      {r.boostedPayout.toFixed(2)}
+                      {r.boostedPayout!.toFixed(2)}
                     </p>
-                  ) : (
+                  )}
+                  {r.boostStatus === "none" && (
+                    <p className="mt-2 text-xs text-muted">
+                      No parlay boost on this book (confirmed)
+                    </p>
+                  )}
+                  {r.boostStatus === "unverified" && (
                     <p className="mt-2 font-mono text-xs uppercase tracking-widest2 text-alert">
                       Boost: verify on site
                     </p>

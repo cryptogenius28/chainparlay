@@ -6,27 +6,23 @@ type ComparisonTableProps = {
 };
 
 function VolatileCell({
-  value,
-  suffix = "",
+  display,
   verified,
 }: {
-  value: string | number | null;
-  suffix?: string;
+  display: string | null;
   verified: boolean;
 }) {
-  if (value === null || !verified) {
+  if (!verified) {
     return (
       <span className="font-mono text-xs uppercase tracking-widest2 text-alert">
         Verify on site
       </span>
     );
   }
-  return (
-    <span className="tabular text-sm text-chalk">
-      {value}
-      {suffix}
-    </span>
-  );
+  if (display === null) {
+    return <span className="text-sm text-muted">—</span>;
+  }
+  return <span className="tabular text-sm text-chalk">{display}</span>;
 }
 
 export default function ComparisonTable({ platforms }: ComparisonTableProps) {
@@ -34,10 +30,11 @@ export default function ComparisonTable({ platforms }: ComparisonTableProps) {
     <div>
       <p className="mb-3 text-xs text-muted">
         Founding, licensing, and coin support below are sourced and dated.
-        Combo boost, leg limits, and bonus terms change frequently — fields
-        marked{" "}
-        <span className="font-mono text-alert">Verify on site</span> have
-        not yet been confirmed against the operator&apos;s live terms.
+        Combo boost, leg limits, and bonus terms change frequently —{" "}
+        <span className="font-mono text-alert">Verify on site</span> means
+        we haven&apos;t checked that book&apos;s current terms yet; a dash
+        (—) means we checked and the operator doesn&apos;t publish that
+        figure.
       </p>
       <div className="overflow-x-auto rounded-link border border-hairline">
         <table className="w-full min-w-[920px] border-collapse text-left">
@@ -79,20 +76,29 @@ export default function ComparisonTable({ platforms }: ComparisonTableProps) {
                 </td>
                 <td className="px-4 py-4">
                   <VolatileCell
-                    value={platform.volatile.maxParlayLegs}
+                    display={
+                      platform.volatile.maxParlayLegs !== null
+                        ? String(platform.volatile.maxParlayLegs)
+                        : null
+                    }
                     verified={platform.volatile.verified}
                   />
                 </td>
                 <td className="px-4 py-4">
                   <VolatileCell
-                    value={platform.volatile.parlayBoostPct}
-                    suffix="%"
+                    display={
+                      platform.volatile.parlayBoostPct === null
+                        ? null
+                        : platform.volatile.parlayBoostPct > 0
+                        ? `+${platform.volatile.parlayBoostPct}%`
+                        : "None"
+                    }
                     verified={platform.volatile.verified}
                   />
                 </td>
                 <td className="px-4 py-4">
                   <VolatileCell
-                    value={platform.volatile.depositBonus}
+                    display={platform.volatile.depositBonus}
                     verified={platform.volatile.verified}
                   />
                 </td>

@@ -26,6 +26,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link className="hover:text-chalk" href="/boosts">
+                  Boost tracker
+                </Link>
+              </li>
+              <li>
                 <Link className="hover:text-chalk" href="/compare">
                   Compare books
                 </Link>

@@ -53,6 +53,12 @@ export default function Header() {
             Calculator
           </Link>
           <Link
+            href="/boosts"
+            className="font-body text-sm text-muted transition hover:text-chalk"
+          >
+            Boost tracker
+          </Link>
+          <Link
             href="/compare"
             className="font-body text-sm text-muted transition hover:text-chalk"
           >
