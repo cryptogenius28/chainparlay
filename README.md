@@ -18,6 +18,7 @@ npm run dev
 app/
   layout.tsx              root layout, fonts, header/footer
   page.tsx                homepage: hero, chain visualization, explainer, top-4 table, guides
+  calculator/page.tsx      interactive parlay calculator (flagship tool, see below)
   compare/page.tsx         full comparison (sorted by founding year) + odds-alert signup
   platforms/[slug]/page.tsx individual book review (stable facts + volatile terms split)
   guides/page.tsx           guides index
@@ -30,7 +31,8 @@ app/
   api/newsletter/route.ts  odds-alert signup → Supabase + Resend
 components/
   Header.tsx, Footer.tsx
-  ParlayChain.tsx          signature hero visualization (chain of legs → multiplier)
+  ParlayChain.tsx          illustrative hero visualization (chain of legs → multiplier)
+  ParlayCalculator.tsx     interactive client tool — enter legs + per-book odds, compare payouts
   ComparisonTable.tsx       shows stable facts directly; flags unverified volatile terms
   AffiliateButton.tsx       outbound CTA (nofollow sponsored)
   OddsAlertForm.tsx         client-side lead form
@@ -44,6 +46,24 @@ lib/
 types/
   platform.ts              Platform.stable (sourced) vs Platform.volatile (unverified)
 ```
+
+## The calculator
+
+`/calculator` is the flagship interactive tool — the thing meant to make
+people return to the site rather than read it once and leave. Users enter
+each parlay leg once, then the odds each book quotes for that same leg
+(loads with a 2-leg demo prefilled so it's never empty on first view).
+For each book it computes the combined multiplier and payout, highlights
+whichever book pays the most, and — once a platform's `volatile.verified`
+is `true` — layers in that book's combo boost on top of the base payout.
+Until terms are verified, boosted figures show a flagged "Verify on site"
+label instead of a number, consistent with how `ComparisonTable` handles
+the same data.
+
+This intentionally doesn't pull live odds from any book (no odds-feed API
+is wired up) — it's a side-by-side calculator for odds the user already
+has in front of them across tabs, not a live odds aggregator. Worth
+revisiting once/if a live odds API is in scope.
 
 ## Design tokens
 

@@ -47,6 +47,12 @@ export default function Header() {
 
         <nav className="hidden items-center gap-8 md:flex">
           <Link
+            href="/calculator"
+            className="font-body text-sm text-muted transition hover:text-chalk"
+          >
+            Calculator
+          </Link>
+          <Link
             href="/compare"
             className="font-body text-sm text-muted transition hover:text-chalk"
           >
@@ -67,10 +73,10 @@ export default function Header() {
         </nav>
 
         <Link
-          href="/compare"
+          href="/calculator"
           className="rounded-link border border-brass px-4 py-2 font-mono text-xs uppercase tracking-widest2 text-brass transition hover:bg-brass hover:text-ink"
         >
-          See best odds
+          Build a parlay
         </Link>
       </div>
     </header>

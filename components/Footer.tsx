@@ -21,6 +21,11 @@ export default function Footer() {
             <p className="eyebrow">Site</p>
             <ul className="mt-3 space-y-2 text-sm text-muted">
               <li>
+                <Link className="hover:text-chalk" href="/calculator">
+                  Calculator
+                </Link>
+              </li>
+              <li>
                 <Link className="hover:text-chalk" href="/compare">
                   Compare books
                 </Link>

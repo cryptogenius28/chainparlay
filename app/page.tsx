@@ -39,22 +39,30 @@ export default function HomePage() {
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <Link
-            href="/compare"
+            href="/calculator"
             className="rounded-link bg-brass px-5 py-3 font-mono text-xs uppercase tracking-widest2 text-ink transition hover:bg-brass-dim"
           >
-            Compare all books
+            Build a parlay
           </Link>
           <Link
-            href="#how-it-works"
+            href="/compare"
             className="rounded-link border border-hairline px-5 py-3 font-mono text-xs uppercase tracking-widest2 text-muted transition hover:border-steel hover:text-chalk"
           >
-            How chains work
+            Compare all books
           </Link>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-6">
         <ParlayChain />
+        <div className="mt-4 flex justify-end">
+          <Link
+            href="/calculator"
+            className="font-mono text-xs uppercase tracking-widest2 text-steel transition hover:text-chalk"
+          >
+            Build this with your own legs and odds →
+          </Link>
+        </div>
       </section>
 
       <section id="how-it-works" className="mx-auto max-w-6xl px-6 py-16">
